@@ -12,6 +12,8 @@ window.addEventListener('DOMContentLoaded', () => {
   const nextBtn = document.getElementById('nextBtn');
   const pageInfo = document.getElementById('pageInfo');
 
+  const sortSelect = document.getElementById('sortSelect');
+
   let currentPage = 1;
   let totalResults = 0;
   let currentQuery = '';
@@ -35,7 +37,24 @@ window.addEventListener('DOMContentLoaded', () => {
       pagination.style.display = 'flex';
       backToResultsBtn.style.display = 'none';
 
-      data.Search.forEach(movie => {
+    let sorted = data.Search.slice();
+
+    switch (sortSelect.value) {
+        case 'az':
+        sorted.sort((a, b) => a.Title.localeCompare(b.Title));
+    break;
+    case 'za':
+        sorted.sort((a, b) => b.Title.localeCompare(a.Title));
+    break;
+    case 'newest':
+        sorted.sort((a, b) => parseInt(b.Year) - parseInt(a.Year));
+    break;
+    case 'oldest':
+        sorted.sort((a, b) => parseInt(a.Year) - parseInt(b.Year));
+    break;
+}
+
+        sorted.forEach(movie => {
         const poster = movie.Poster !== "N/A" ? movie.Poster : 'https://via.placeholder.com/200x300?text=No+Image';
         const card = document.createElement('div');
         card.className = 'movie-card';
@@ -196,4 +215,8 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     backToResultsBtn.style.display = 'none';
   });
+});
+
+sortSelect.addEventListener('change', () => {
+  if (currentQuery) fetchMovies(currentQuery, currentPage);
 });

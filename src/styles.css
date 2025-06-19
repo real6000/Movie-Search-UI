@@ -200,3 +200,12 @@ h1 {
 }
 
 #backToResultsBtn:hover { background:#666; }
+
+#sortSelect {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: #333;
+  color: #fff;
+  font-weight: bold;
+}
