@@ -67,3 +67,27 @@ h1 {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+.movie-card {
+  background: #2c2c2c;
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+.movie-card img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.movie-card h3 {
+  margin: 5px 0;
+  font-size: 1.2rem;
+}
+
+.movie-card p {
+  color: #aaa;
+  font-size: 0.95rem;
+}
