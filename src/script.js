@@ -10,7 +10,6 @@ window.addEventListener('DOMContentLoaded', () => {
     if (!query) return;
 
     const url = `https://www.omdbapi.com/?s=${encodeURIComponent(query)}&apikey=${apiKey}`;
-
     results.innerHTML = '<p style="opacity: 0.6;">Searching...</p>';
 
     try {
@@ -33,6 +32,36 @@ window.addEventListener('DOMContentLoaded', () => {
           <h3>${movie.Title}</h3>
           <p>${movie.Year}</p>
         `;
+
+        card.addEventListener('click', async () => {
+          try {
+            const res = await fetch(`https://www.omdbapi.com/?i=${movie.imdbID}&apikey=${apiKey}`);
+            const detail = await res.json();
+
+            results.innerHTML = `
+              <div class="movie-details">
+                <img src="${detail.Poster !== "N/A" ? detail.Poster : 'https://via.placeholder.com/300x450?text=No+Image'}" alt="${detail.Title}" />
+                <div class="info">
+                  <h2>${detail.Title} (${detail.Year})</h2>
+                  <p><strong>Genre:</strong> ${detail.Genre}</p>
+                  <p><strong>Director:</strong> ${detail.Director}</p>
+                  <p><strong>Actors:</strong> ${detail.Actors}</p>
+                  <p><strong>Plot:</strong> ${detail.Plot}</p>
+                  <button id="backBtn">⬅ Back to results</button>
+                </div>
+              </div>
+            `;
+
+            document.getElementById('backBtn').addEventListener('click', () => {
+              searchBtn.click();
+            });
+
+          } catch (err) {
+            console.error(err);
+            results.innerHTML = `<p>Error loading movie details.</p>`;
+          }
+        });
+
         results.appendChild(card);
       });
 

@@ -91,3 +91,46 @@ h1 {
   color: #aaa;
   font-size: 0.95rem;
 }
+
+.movie-details {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.movie-details img {
+  max-width: 250px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+.movie-details .info {
+  text-align: left;
+  background: #2c2c2c;
+  padding: 20px;
+  border-radius: 12px;
+  width: 100%;
+}
+
+.movie-details h2 {
+  margin-top: 0;
+}
+
+.movie-details p {
+  margin: 8px 0;
+}
+
+#backBtn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #444;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#backBtn:hover {
+  background: #666;
+}
