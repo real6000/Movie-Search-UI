@@ -187,3 +187,16 @@ h1 {
 .movie-details {
   animation: fadeIn 0.4s ease forwards;
 }
+
+#backToResultsBtn {
+  background:#444;
+  border:none;
+  border-radius:8px;
+  color:#fff;
+  padding:8px 15px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:background .3s ease;
+}
+
+#backToResultsBtn:hover { background:#666; }

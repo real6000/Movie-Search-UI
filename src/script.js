@@ -1,10 +1,11 @@
-const apiKey = 'd6e93a1e'; 
+const apiKey = 'd6e93a1e';
 
 window.addEventListener('DOMContentLoaded', () => {
   const searchBtn = document.getElementById('searchBtn');
   const searchInput = document.getElementById('searchInput');
   const results = document.getElementById('results');
   const viewWatchlistBtn = document.getElementById('viewWatchlistBtn');
+  const backToResultsBtn = document.getElementById('backToResultsBtn');
 
   const pagination = document.getElementById('pagination');
   const prevBtn = document.getElementById('prevBtn');
@@ -25,12 +26,14 @@ window.addEventListener('DOMContentLoaded', () => {
       if (data.Response === "False") {
         results.innerHTML = `<p>No results found for "<strong>${query}</strong>"</p>`;
         pagination.style.display = 'none';
+        backToResultsBtn.style.display = 'none';
         return;
       }
 
       totalResults = parseInt(data.totalResults, 10);
       results.innerHTML = '';
       pagination.style.display = 'flex';
+      backToResultsBtn.style.display = 'none';
 
       data.Search.forEach(movie => {
         const poster = movie.Poster !== "N/A" ? movie.Poster : 'https://via.placeholder.com/200x300?text=No+Image';
@@ -110,11 +113,12 @@ window.addEventListener('DOMContentLoaded', () => {
     fetchMovies(currentQuery, currentPage);
   });
 
+  // Enter key search
   searchInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
-    searchBtn.click();
-  }
-});
+    if (e.key === 'Enter') {
+      searchBtn.click();
+    }
+  });
 
   prevBtn.addEventListener('click', () => {
     if (currentPage > 1) {
@@ -130,11 +134,11 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Watchlist button logic
   viewWatchlistBtn.addEventListener('click', () => {
     const watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
     results.innerHTML = '';
     pagination.style.display = 'none';
+    backToResultsBtn.style.display = 'inline-block';
 
     if (watchlist.length === 0) {
       results.innerHTML = '<p>Your watchlist is empty.</p>';
@@ -181,5 +185,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
       results.appendChild(card);
     });
+  });
+
+  backToResultsBtn.addEventListener('click', () => {
+    if (currentQuery) {
+      fetchMovies(currentQuery, currentPage);
+    } else {
+      results.innerHTML = '<p>Search for a movie to begin.</p>';
+      pagination.style.display = 'none';
+    }
+    backToResultsBtn.style.display = 'none';
   });
 });
