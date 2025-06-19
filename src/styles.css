@@ -74,6 +74,12 @@ h1 {
   border-radius: 12px;
   text-align: center;
   box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.movie-card:hover {
+  transform: scale(1.03);
 }
 
 .movie-card img {
@@ -121,7 +127,8 @@ h1 {
   margin: 8px 0;
 }
 
-#backBtn {
+#backBtn,
+#addWatchlistBtn {
   margin-top: 20px;
   padding: 10px 20px;
   background: #444;
@@ -129,8 +136,11 @@ h1 {
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  margin-right: 10px;
+  font-weight: 600;
 }
 
-#backBtn:hover {
+#backBtn:hover,
+#addWatchlistBtn:hover {
   background: #666;
 }
