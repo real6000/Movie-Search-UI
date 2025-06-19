@@ -6,24 +6,31 @@ window.addEventListener('DOMContentLoaded', () => {
   const results = document.getElementById('results');
   const viewWatchlistBtn = document.getElementById('viewWatchlistBtn');
 
-  // Search movies
-  searchBtn.addEventListener('click', async () => {
-    const query = searchInput.value.trim();
-    if (!query) return;
+  const pagination = document.getElementById('pagination');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const pageInfo = document.getElementById('pageInfo');
 
-    const url = `https://www.omdbapi.com/?s=${encodeURIComponent(query)}&apikey=${apiKey}`;
+  let currentPage = 1;
+  let totalResults = 0;
+  let currentQuery = '';
+
+  async function fetchMovies(query, page = 1) {
     results.innerHTML = '<p style="opacity: 0.6;">Searching...</p>';
-
     try {
+      const url = `https://www.omdbapi.com/?s=${encodeURIComponent(query)}&apikey=${apiKey}&page=${page}`;
       const res = await fetch(url);
       const data = await res.json();
 
       if (data.Response === "False") {
         results.innerHTML = `<p>No results found for "<strong>${query}</strong>"</p>`;
+        pagination.style.display = 'none';
         return;
       }
 
+      totalResults = parseInt(data.totalResults, 10);
       results.innerHTML = '';
+      pagination.style.display = 'flex';
 
       data.Search.forEach(movie => {
         const poster = movie.Poster !== "N/A" ? movie.Poster : 'https://via.placeholder.com/200x300?text=No+Image';
@@ -56,7 +63,8 @@ window.addEventListener('DOMContentLoaded', () => {
             `;
 
             document.getElementById('backBtn').addEventListener('click', () => {
-              searchBtn.click();
+              fetchMovies(currentQuery, currentPage);
+              updatePaginationButtons();
             });
 
             document.getElementById('addWatchlistBtn').addEventListener('click', () => {
@@ -80,16 +88,47 @@ window.addEventListener('DOMContentLoaded', () => {
         results.appendChild(card);
       });
 
+      pageInfo.textContent = `Page ${currentPage} of ${Math.ceil(totalResults / 10)}`;
+      updatePaginationButtons();
+
     } catch (err) {
       console.error(err);
       results.innerHTML = `<p>Something went wrong. Try again later.</p>`;
+      pagination.style.display = 'none';
+    }
+  }
+
+  function updatePaginationButtons() {
+    prevBtn.disabled = currentPage <= 1;
+    nextBtn.disabled = currentPage >= Math.ceil(totalResults / 10);
+  }
+
+  searchBtn.addEventListener('click', () => {
+    currentQuery = searchInput.value.trim();
+    if (!currentQuery) return;
+    currentPage = 1;
+    fetchMovies(currentQuery, currentPage);
+  });
+
+  prevBtn.addEventListener('click', () => {
+    if (currentPage > 1) {
+      currentPage--;
+      fetchMovies(currentQuery, currentPage);
     }
   });
 
-  // View Watchlist
+  nextBtn.addEventListener('click', () => {
+    if (currentPage < Math.ceil(totalResults / 10)) {
+      currentPage++;
+      fetchMovies(currentQuery, currentPage);
+    }
+  });
+
+  // Watchlist button logic
   viewWatchlistBtn.addEventListener('click', () => {
     const watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
     results.innerHTML = '';
+    pagination.style.display = 'none';
 
     if (watchlist.length === 0) {
       results.innerHTML = '<p>Your watchlist is empty.</p>';

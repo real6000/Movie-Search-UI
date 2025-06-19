@@ -144,3 +144,46 @@ h1 {
 #addWatchlistBtn:hover {
   background: #666;
 }
+
+.pagination{
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  color: #fff;
+}
+
+.pagination button{
+  background: #ff3c3c;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 8px 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.pagination button:disabled{
+    background:#888;
+    cursor:default;
+}
+
+.pagination button:hover:not(:disabled){
+    background:#ff5f5f;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.movie-card {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.movie-details {
+  animation: fadeIn 0.4s ease forwards;
+}

@@ -11,12 +11,17 @@
   <div class="app">
     <h1>🎬 Movie Search</h1>
     <div class="search-box">
-        <button id="viewWatchlistBtn" style="margin-bottom: 20px;">View Watchlist</button>
+      <button id="viewWatchlistBtn" style="margin-bottom: 20px;">View Watchlist</button>
       <input type="text" id="searchInput" placeholder="Search for a movie..." />
       <button id="searchBtn">Search</button>
     </div>
-    <div id="results" class="results">
-      <!-- Movie results will appear here -->
+
+    <div id="results" class="results"></div>
+
+    <div id="pagination" class="pagination" style="display:none;">
+      <button id="prevBtn" disabled>← Previous</button>
+      <span id="pageInfo"></span>
+      <button id="nextBtn" disabled>Next →</button>
     </div>
   </div>
 
