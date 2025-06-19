@@ -110,6 +110,12 @@ window.addEventListener('DOMContentLoaded', () => {
     fetchMovies(currentQuery, currentPage);
   });
 
+  searchInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    searchBtn.click();
+  }
+});
+
   prevBtn.addEventListener('click', () => {
     if (currentPage > 1) {
       currentPage--;
